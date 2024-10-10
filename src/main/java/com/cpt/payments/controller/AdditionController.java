@@ -5,8 +5,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cpt.payments.service.interfaces.ReconService;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 @RestController
 public class AdditionController {
+	
+	private ReconService reconService;
+	
+	AdditionController(ReconService reconService)
+	{
+		this.reconService=reconService;
+	}
+	
+	
 	
     @PostMapping("/add")
     public int add(@RequestParam int num1, @RequestParam int num2) {
@@ -17,4 +30,15 @@ public class AdditionController {
 
         return sumResult;
     }
+    
+    
+    
+    @PostMapping("/testRecon")
+    public String postMethodName() {
+    
+        reconService.reconcilePayments();
+    	
+        return "Recon Triggered";
+    }
+    
 }
