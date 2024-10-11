@@ -1,8 +1,20 @@
 package com.cpt.payments;
 
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import com.cpt.payments.constant.PaymentMethodEnum;
+import com.cpt.payments.constant.PaymentTypeIdEnum;
+import com.cpt.payments.constant.ProviderIdEnum;
+import com.cpt.payments.constant.TxnStatusIdEnum;
+import com.cpt.payments.dto.TransactionDTO;
+import com.cpt.payments.entity.TransactionEntity;
+import com.cpt.payments.util.*;
+
 
 @Configuration
 public class AppConfig {						// customize threadpool 
@@ -18,5 +30,35 @@ public class AppConfig {						// customize threadpool
         executor.setThreadNamePrefix("MyExecutor-");    //prefix name   ex-  MyExecutor-task-1
         executor.initialize();
         return executor;
+    }
+    
+    
+    @Bean
+    ModelMapper modelMapper()
+    {
+    	ModelMapper modelMapper = new ModelMapper();
+    	
+    	//util package converter - Intger to String
+        // Add mappings for Entity -> DTO conversions
+        modelMapper.typeMap(TransactionEntity.class, TransactionDTO.class)
+                .addMappings(mapper -> {
+                	
+                	mapper.using(new PaymentMethodIdConverter())	
+                		  .map(TransactionEntity::getPaymentMethodId, TransactionDTO::setPaymentMethodName);
+                
+                	mapper.using(new ProviderIdConverter())		
+                          .map(TransactionEntity::getProviderId, TransactionDTO::setProviderName);
+                   
+                	mapper.using(new PaymentTypeIdConverter())	
+                          .map(TransactionEntity::getPaymentTypeId, TransactionDTO::setPaymentTypeName);
+                    
+                	mapper.using(new TxnStatusIdConverter())		
+                          .map(TransactionEntity::getTxnStatusId, TransactionDTO::setTxnStatusName);
+                });
+        
+        
+
+        return modelMapper;
+    	
     }
 }
