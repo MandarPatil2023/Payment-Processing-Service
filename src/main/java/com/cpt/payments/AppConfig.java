@@ -6,6 +6,7 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.client.RestTemplate;
 
 import com.cpt.payments.constant.PaymentMethodEnum;
 import com.cpt.payments.constant.PaymentTypeIdEnum;
@@ -14,6 +15,7 @@ import com.cpt.payments.constant.TxnStatusIdEnum;
 import com.cpt.payments.dto.TransactionDTO;
 import com.cpt.payments.entity.TransactionEntity;
 import com.cpt.payments.util.*;
+import com.google.gson.Gson;
 
 
 @Configuration
@@ -32,6 +34,15 @@ public class AppConfig {						// customize threadpool
         return executor;
     }
     
+    @Bean
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    
+    @Bean
+    Gson gson() {
+    	return new Gson();
+    }
     
     @Bean
     ModelMapper modelMapper()
