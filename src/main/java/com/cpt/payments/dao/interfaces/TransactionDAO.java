@@ -8,4 +8,6 @@ import com.cpt.payments.dto.TransactionDTO;
 public interface TransactionDAO {
 
 	public List<TransactionDTO> getTransactionsForRecon();
+
+	boolean updateTransactionReconDetails(TransactionDTO transactionDTO);
 }

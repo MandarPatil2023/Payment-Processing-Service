@@ -26,7 +26,7 @@ public class ReconServiceImpl implements ReconService {
 	}
 	
 	@Override
-	//@Scheduled(cron = "0/5 * * * * ?")
+	//@Scheduled(cron = "0/15 * * * * ?")
 	public void reconcilePayments() {
 		log.info("Reconciling payments...");
 		

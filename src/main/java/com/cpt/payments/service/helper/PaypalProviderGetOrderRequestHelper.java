@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import com.cpt.payments.http.HttpRequest;
 
 @Service
-public class ProcessingGetOrderRequestHelper {
+public class PaypalProviderGetOrderRequestHelper {
 		
 		
-		@Value("${provider.showOrder.url}")
+		@Value("${paypal-provider.showOrder.url}") //done
 		private String showOrderUrl;
 
 		public HttpRequest getOrder(String orderId)
